@@ -4,8 +4,6 @@ LABEL maintainer="Bilal Khalid"
 
 ARG NODE_VERSION=16
 
-WORKDIR /var/www/html
-
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC
 
@@ -32,3 +30,11 @@ RUN apt-get update \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENTRYPOINT ["docker-php-entrypoint"]
+WORKDIR /var/www/html
+
+STOPSIGNAL SIGQUIT
+
+EXPOSE 9000
+CMD ["php-fpm"]
